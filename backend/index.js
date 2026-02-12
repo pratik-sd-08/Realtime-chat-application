@@ -18,8 +18,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://chat-rosy-one-28.vercel.app/"
+      "https://chat-rosy-one-28.vercel.app"
     ],
     credentials: true
   })
