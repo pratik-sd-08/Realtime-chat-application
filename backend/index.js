@@ -14,19 +14,22 @@ await connectDB();
 
 const app = express();
 
-
-app.use(cors({
-  origin: "http://localhost:5173", 
-  credentials: true
-}));
+// ✅ UPDATED CORS
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://your-frontend-domain.vercel.app"
+    ],
+    credentials: true
+  })
+);
 
 app.use(express.json());
-
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupRoutes);
-
 
 app.get("/", (req, res) => {
   res.send("API is running...");
@@ -34,11 +37,10 @@ app.get("/", (req, res) => {
 
 const server = http.createServer(app);
 
-
 initSocket(server);
 
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
