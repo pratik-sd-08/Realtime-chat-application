@@ -7,11 +7,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <Routes>
-      {/* Public Routes */}
+     
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
 
-      {/* Protected Route */}
       <Route
         path="/"
         element={
@@ -21,7 +20,7 @@ function App() {
         }
       />
 
-      {/* Catch unknown routes */}
+     
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

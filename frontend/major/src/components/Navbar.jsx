@@ -2,11 +2,20 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <div className="navbar">
-      <h2 className="logo">ChatApp</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <h2 className="logo">ChatApp</h2>
+
+        {user && (
+          <div style={{ fontSize: "14px", opacity: 0.8 }}>
+            👤 {user.name}
+          </div>
+        )}
+      </div>
+
       <button className="logout-btn" onClick={logout}>
         Logout
       </button>

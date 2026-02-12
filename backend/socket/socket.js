@@ -14,14 +14,13 @@ export const initSocket = (server) => {
 
   io.on("connection", (socket) => {
 
-    // User joins their private room
     socket.on("join", (userId) => {
       socket.join(userId);
       onlineUsers.set(userId, socket.id);
       io.emit("onlineUsers", Array.from(onlineUsers.keys()));
     });
 
-    // Private message
+    
     socket.on("sendMessage", async (data) => {
       const { sender, receiver, content } = data;
 
@@ -31,14 +30,14 @@ export const initSocket = (server) => {
         content
       });
 
-      // Send only to receiver
+    
       io.to(receiver).emit("receiveMessage", message);
 
-      // Send back to sender
+      
       io.to(sender).emit("receiveMessage", message);
     });
 
-    // Typing indicator
+   
     socket.on("typing", ({ sender, receiver }) => {
       socket.to(receiver).emit("typing", sender);
     });

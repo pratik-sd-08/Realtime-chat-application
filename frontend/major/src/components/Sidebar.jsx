@@ -6,25 +6,37 @@ function Sidebar({ setActiveUser }) {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const res = await api.get("/api/users"); // create this route later if not exists
-      setUsers(res.data);
+      try {
+        const res = await api.get("/api/auth/users"); 
+        setUsers(res.data);
+      } catch (error) {
+        console.error("Error fetching users:", error.response?.data || error.message);
+      }
     };
+
     fetchUsers();
   }, []);
 
   return (
     <div className="sidebar">
       <h3>Users</h3>
-      {users.map((user) => (
-        <div
-          key={user._id}
-          className="user-item"
-          onClick={() => setActiveUser(user)}
-        >
-          <span className={`status-dot ${user.online ? "online" : ""}`} />
-          {user.name}
-        </div>
-      ))}
+
+      {users.length === 0 ? (
+        <p style={{ opacity: 0.6 }}>No users found</p>
+      ) : (
+        users.map((user) => (
+          <div
+            key={user._id}
+            className="user-item"
+            onClick={() => setActiveUser(user)}
+          >
+            <span
+              className={`status-dot ${user.online ? "online" : ""}`}
+            />
+            {user.name}
+          </div>
+        ))
+      )}
     </div>
   );
 }

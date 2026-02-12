@@ -7,23 +7,40 @@ function ChatWindow({ messages, currentUser, typingUser, activeUser }) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const filteredMessages = messages.filter((m) => {
+    const senderId =
+      typeof m.sender === "object" ? m.sender._id : m.sender;
+
+    const receiverId =
+      typeof m.receiver === "object" ? m.receiver._id : m.receiver;
+
+    return (
+      (senderId === currentUser && receiverId === activeUser?._id) ||
+      (senderId === activeUser?._id && receiverId === currentUser)
+    );
+  });
+
   return (
     <div className="chat-window">
-      {messages
-        .filter(m =>
-          (m.sender === currentUser && m.receiver === activeUser?._id) ||
-          (m.sender === activeUser?._id && m.receiver === currentUser)
-        )
-        .map((msg, index) => (
+      {filteredMessages.length === 0 && activeUser && (
+        <p style={{ opacity: 0.6 }}>Start a conversation</p>
+      )}
+
+      {filteredMessages.map((msg, index) => {
+        const senderId =
+          typeof msg.sender === "object" ? msg.sender._id : msg.sender;
+
+        return (
           <div
             key={index}
             className={`message-bubble ${
-              msg.sender === currentUser ? "own" : ""
+              senderId === currentUser ? "own" : ""
             }`}
           >
             {msg.content}
           </div>
-        ))}
+        );
+      })}
 
       {typingUser === activeUser?._id && (
         <div className="typing-indicator">

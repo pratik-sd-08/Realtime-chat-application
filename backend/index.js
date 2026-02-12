@@ -10,32 +10,31 @@ import { initSocket } from "./socket/socket.js";
 
 dotenv.config();
 
-// Connect database
 await connectDB();
 
 const app = express();
 
-// Better CORS setup (important for frontend)
+
 app.use(cors({
-  origin: "http://localhost:5173", // change to frontend URL in production
+  origin: "http://localhost:5173", 
   credentials: true
 }));
 
 app.use(express.json());
 
-// Routes
+
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/groups", groupRoutes);
 
-// Basic health check route
+
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
 const server = http.createServer(app);
 
-// Initialize socket
+
 initSocket(server);
 
 const PORT = process.env.PORT || 5000;

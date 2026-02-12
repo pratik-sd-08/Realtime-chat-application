@@ -4,7 +4,7 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// CREATE GROUP
+
 router.post("/", protect, async (req, res) => {
   const { name, members } = req.body;
 
@@ -16,7 +16,7 @@ router.post("/", protect, async (req, res) => {
   res.json(group);
 });
 
-// GET USER GROUPS
+
 router.get("/", protect, async (req, res) => {
   const groups = await Group.find({
     members: req.user.id

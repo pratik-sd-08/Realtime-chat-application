@@ -1,26 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
-function MessageInput({ socket, activeUser, currentUser }) {
+function MessageInput({ socket, activeUser, currentUser, addMessage }) {
   const [text, setText] = useState("");
+  const typingTimeoutRef = useRef(null);
+
+  
+  const handleTyping = () => {
+    if (!activeUser) return;
+
+    socket.emit("typing", {
+      sender: currentUser,
+      receiver: activeUser._id
+    });
+
+    
+    clearTimeout(typingTimeoutRef.current);
+    typingTimeoutRef.current = setTimeout(() => {
+      socket.emit("stopTyping", {
+        sender: currentUser,
+        receiver: activeUser._id
+      });
+    }, 2000);
+  };
 
   const sendMessage = () => {
     if (!text.trim() || !activeUser) return;
 
-    socket.emit("sendMessage", {
+    const messageData = {
       sender: currentUser,
       receiver: activeUser._id,
-      content: text
-    });
+      content: text.trim(),
+      createdAt: new Date().toISOString()
+    };
+
+    
+    socket.emit("sendMessage", messageData);
+
+  
+    if (addMessage) {
+      addMessage(messageData);
+    }
 
     setText("");
   };
 
-  const handleTyping = () => {
-    socket.emit("typing", {
-      sender: currentUser,
-      receiver: activeUser?._id
-    });
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(typingTimeoutRef.current);
+    };
+  }, []);
 
   return (
     <div className="message-input">
@@ -30,9 +64,17 @@ function MessageInput({ socket, activeUser, currentUser }) {
           setText(e.target.value);
           handleTyping();
         }}
-        placeholder="Type a message..."
+        onKeyDown={handleKeyPress}
+        placeholder={
+          activeUser
+            ? `Message ${activeUser.name}`
+            : "Select a user to start chatting"
+        }
+        disabled={!activeUser}
       />
-      <button onClick={sendMessage}>Send</button>
+      <button onClick={sendMessage} disabled={!activeUser}>
+        Send
+      </button>
     </div>
   );
 }

@@ -2,29 +2,22 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-/*
-====================================
-SIGNUP / REGISTER
-====================================
-*/
 router.post("/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
-    const user = await User.create({
+    await User.create({
       name,
       email,
       password: hashedPassword
@@ -35,15 +28,12 @@ router.post("/signup", async (req, res) => {
     });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-/*
-====================================
-LOGIN
-====================================
-*/
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -58,15 +48,17 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // JWT Token (1 hour expiry)
+    const expiresIn = "1h";
+
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn }
     );
 
     res.json({
       token,
+      expiresIn,
       user: {
         id: user._id,
         name: user.name,
@@ -75,35 +67,35 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-/*
-====================================
-VERIFY TOKEN (Session Check)
-====================================
-*/
-router.get("/verify", async (req, res) => {
+router.get("/verify", protect, async (req, res) => {
+  res.json({
+    message: "Session active",
+    userId: req.user.id
+  });
+});
+
+router.get("/users", protect, async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const users = await User.find({
+      _id: { $ne: req.user.id }
+    }).select("-password");
 
-    if (!token) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    res.json({
-      message: "Token valid",
-      userId: decoded.id
-    });
+    res.json(users);
 
   } catch (error) {
-    return res.status(401).json({
-      message: "Session expired"
-    });
+    console.error(error);
+    res.status(500).json({ message: "Error fetching users" });
   }
+});
+
+
+router.post("/logout", protect, (req, res) => {
+  res.json({ message: "Logged out successfully" });
 });
 
 export default router;

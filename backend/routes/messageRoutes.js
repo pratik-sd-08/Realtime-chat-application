@@ -4,7 +4,6 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// GET PRIVATE MESSAGES
 router.get("/private/:userId", protect, async (req, res) => {
   const messages = await Message.find({
     $or: [
@@ -16,7 +15,7 @@ router.get("/private/:userId", protect, async (req, res) => {
   res.json(messages);
 });
 
-// GET GROUP MESSAGES
+
 router.get("/group/:groupId", protect, async (req, res) => {
   const messages = await Message.find({
     group: req.params.groupId
