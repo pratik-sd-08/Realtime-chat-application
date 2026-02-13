@@ -1,10 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 
-function MessageInput({ socket, activeUser, currentUser, addMessage }) {
+function MessageInput({ socket, activeUser, currentUser }) {
   const [text, setText] = useState("");
   const typingTimeoutRef = useRef(null);
 
-  
+  const sendMessage = () => {
+    if (!text.trim() || !activeUser) return;
+
+    socket.emit("sendMessage", {
+      sender: currentUser,
+      receiver: activeUser._id,
+      content: text.trim()
+    });
+
+    setText("");
+  };
+
   const handleTyping = () => {
     if (!activeUser) return;
 
@@ -13,8 +24,8 @@ function MessageInput({ socket, activeUser, currentUser, addMessage }) {
       receiver: activeUser._id
     });
 
-    
     clearTimeout(typingTimeoutRef.current);
+
     typingTimeoutRef.current = setTimeout(() => {
       socket.emit("stopTyping", {
         sender: currentUser,
@@ -23,28 +34,7 @@ function MessageInput({ socket, activeUser, currentUser, addMessage }) {
     }, 2000);
   };
 
-  const sendMessage = () => {
-    if (!text.trim() || !activeUser) return;
-
-    const messageData = {
-      sender: currentUser,
-      receiver: activeUser._id,
-      content: text.trim(),
-      createdAt: new Date().toISOString()
-    };
-
-    
-    socket.emit("sendMessage", messageData);
-
-  
-    if (addMessage) {
-      addMessage(messageData);
-    }
-
-    setText("");
-  };
-
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       sendMessage();
     }
@@ -64,7 +54,7 @@ function MessageInput({ socket, activeUser, currentUser, addMessage }) {
           setText(e.target.value);
           handleTyping();
         }}
-        onKeyDown={handleKeyPress}
+        onKeyDown={handleKeyDown}
         placeholder={
           activeUser
             ? `Message ${activeUser.name}`

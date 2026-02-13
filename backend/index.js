@@ -1,7 +1,8 @@
 import express from "express";
 import http from "http";
-import cors from "cors";
 import dotenv from "dotenv";
+import cors from "cors";
+
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
@@ -10,20 +11,25 @@ import { initSocket } from "./socket/socket.js";
 
 dotenv.config();
 
-await connectDB();
+connectDB();
 
 const app = express();
+const server = http.createServer(app);
 
+app.set("trust proxy", 1);
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "https://chat-rosy-one-28.vercel.app"
-    ],
-    credentials: true
-  })
-);
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://chat-rosy-one-28.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+};
+
+app.use(cors(corsOptions)); 
 
 app.use(express.json());
 
@@ -34,8 +40,6 @@ app.use("/api/groups", groupRoutes);
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
-
-const server = http.createServer(app);
 
 initSocket(server);
 

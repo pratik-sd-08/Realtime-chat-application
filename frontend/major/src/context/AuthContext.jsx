@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const res = await api.get("/api/auth/verify");
+        const res = await api.get("/auth/verify");
 
         setUser({
           id: res.data.userId,
