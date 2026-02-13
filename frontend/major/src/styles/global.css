@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -84,7 +83,6 @@ html {
   box-shadow: 0 0 15px #3b82f6;
 }
 
-
 .auth-switch {
   margin-top: 15px;
   text-align: center;
@@ -101,7 +99,6 @@ html {
 .auth-switch a:hover {
   text-shadow: 0 0 10px #3b82f6;
 }
-
 
 .navbar {
   height: 70px;
@@ -135,7 +132,6 @@ html {
   transform: scale(1.05);
   box-shadow: 0 0 15px #ef4444;
 }
-
 
 .chat-layout {
   display: flex;
@@ -184,7 +180,6 @@ html {
   animation: pulse 1.5s infinite;
 }
 
-
 .chat-window {
   flex: 1;
   padding: 25px;
@@ -209,14 +204,12 @@ html {
   background: linear-gradient(45deg, #3b82f6, #2563eb);
 }
 
-
 .typing-indicator {
   font-size: 14px;
   opacity: 0.7;
   animation: typingBlink 1.2s infinite;
   margin-bottom: 10px;
 }
-
 
 .message-input {
   display: flex;
@@ -247,6 +240,106 @@ html {
 .message-input button:hover {
   transform: scale(1.05);
   box-shadow: 0 0 15px #3b82f6;
+}
+
+
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+  }
+
+  .message-bubble {
+    max-width: 75%;
+  }
+
+  .auth-box {
+    width: 90%;
+    max-width: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  body {
+    overflow-y: auto;
+  }
+
+  .chat-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 10px;
+  }
+
+  .user-item {
+    min-width: 140px;
+    margin-bottom: 0;
+  }
+
+  .chat-window {
+    padding: 15px;
+  }
+
+  .message-bubble {
+    max-width: 85%;
+    font-size: 14px;
+  }
+
+  .message-input {
+    padding: 10px;
+  }
+
+  .message-input input {
+    padding: 10px 14px;
+  }
+
+  .message-input button {
+    padding: 10px 16px;
+  }
+
+  .navbar {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .auth-box {
+    padding: 30px 20px;
+  }
+
+  .auth-box h2 {
+    font-size: 18px;
+  }
+
+  .logo {
+    font-size: 15px;
+  }
+
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .message-bubble {
+    max-width: 90%;
+    font-size: 13px;
+  }
+
+  .message-input input {
+    font-size: 14px;
+  }
+
+  .message-input button {
+    font-size: 13px;
+  }
 }
 
 
