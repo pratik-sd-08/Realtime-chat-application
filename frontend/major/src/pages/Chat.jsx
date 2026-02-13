@@ -58,9 +58,7 @@ function Chat() {
 
     const fetchMessages = async () => {
       try {
-        const res = await api.get(
-          `/api/messages/private/${activeUser._id}`
-        );
+        const res = await api.get(`/messages/private/${activeUser._id}`);
         setMessages(res.data);
       } catch (error) {
         console.error("Message fetch error:", error);

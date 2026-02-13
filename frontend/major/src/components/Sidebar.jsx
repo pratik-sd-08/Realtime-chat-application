@@ -8,7 +8,7 @@ function Sidebar({ setActiveUser }) {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-       const res = await api.get("/api/auth/users");
+       const res = await api.get("/auth/users");
         setUsers(res.data);
       } catch (error) {
         console.error(
