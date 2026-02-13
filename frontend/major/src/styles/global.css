@@ -4,27 +4,28 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: white;
-  height: 100vh;
-  overflow: hidden;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(-45deg, #0f172a, #1e293b, #0f172a, #1e3a8a);
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+  color: #f8fafc;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
+  background: linear-gradient(#3b82f6, #2563eb);
   border-radius: 10px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
@@ -34,17 +35,23 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.8s ease;
 }
 
 .auth-box {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(25px);
   padding: 50px;
-  border-radius: 20px;
-  width: 350px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
-  animation: slideUp 0.5s ease;
+  border-radius: 25px;
+  width: 360px;
+  box-shadow:
+    0 0 60px rgba(37, 99, 235, 0.2),
+    inset 0 0 1px rgba(255,255,255,0.2);
+  animation: floatBox 4s ease-in-out infinite;
+  transition: 0.4s ease;
+}
+
+.auth-box:hover {
+  transform: translateY(-5px);
 }
 
 .auth-box h2 {
@@ -55,32 +62,36 @@ html {
 
 .auth-box input {
   width: 100%;
-  padding: 12px 18px;
-  margin-bottom: 15px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
   border-radius: 30px;
   border: none;
   outline: none;
+  background: rgba(255,255,255,0.08);
+  color: white;
   transition: 0.3s;
 }
 
 .auth-box input:focus {
-  box-shadow: 0 0 10px #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.4);
+  background: rgba(255,255,255,0.12);
 }
 
 .auth-box button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border-radius: 30px;
   border: none;
   background: linear-gradient(45deg, #3b82f6, #2563eb);
   color: white;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 
 .auth-box button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #3b82f6;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(37,99,235,0.4);
 }
 
 .auth-switch {
@@ -90,32 +101,32 @@ html {
 }
 
 .auth-switch a {
-  color: #3b82f6;
-  text-decoration: none;
+  color: #60a5fa;
   font-weight: bold;
   transition: 0.3s;
 }
-
 .auth-switch a:hover {
   text-shadow: 0 0 10px #3b82f6;
 }
 
 .navbar {
   height: 70px;
-  background: rgba(15, 23, 42, 0.8);
-  backdrop-filter: blur(15px);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(20px);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 30px;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
-  animation: slideDown 0.6s ease;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.5);
 }
 
 .logo {
   font-size: 18px;
   font-weight: bold;
   letter-spacing: 2px;
+  background: linear-gradient(45deg,#60a5fa,#2563eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .logout-btn {
@@ -129,9 +140,11 @@ html {
 }
 
 .logout-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(239,68,68,0.4);
 }
+
+
 
 .chat-layout {
   display: flex;
@@ -140,29 +153,30 @@ html {
 
 .sidebar {
   width: 280px;
-  background: rgba(30, 41, 59, 0.95);
+  background: rgba(30, 41, 59, 0.9);
   padding: 20px;
   overflow-y: auto;
-  animation: fadeIn 0.8s ease;
+  border-right: 1px solid rgba(255,255,255,0.05);
 }
 
 .sidebar h3 {
   margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .user-item {
-  padding: 12px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 14px;
   margin-bottom: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  transition: 0.3s;
+  transition: 0.3s ease;
 }
 
 .user-item:hover {
-  background: rgba(59, 130, 246, 0.2);
-  transform: translateX(5px);
+  background: rgba(59, 130, 246, 0.15);
+  transform: translateX(6px);
 }
 
 .status-dot {
@@ -171,14 +185,14 @@ html {
   border-radius: 50%;
   background: gray;
   margin-right: 10px;
-  transition: 0.3s;
 }
 
 .status-dot.online {
   background: #10b981;
-  box-shadow: 0 0 10px #10b981;
+  box-shadow: 0 0 12px #10b981;
   animation: pulse 1.5s infinite;
 }
+
 
 .chat-window {
   flex: 1;
@@ -186,22 +200,23 @@ html {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  animation: fadeIn 0.8s ease;
 }
 
 .message-bubble {
   max-width: 65%;
-  padding: 12px 18px;
-  border-radius: 20px;
-  margin-bottom: 12px;
-  background: rgba(51, 65, 85, 0.9);
-  animation: popIn 0.3s ease;
-  word-wrap: break-word;
+  padding: 14px 20px;
+  border-radius: 22px;
+  margin-bottom: 14px;
+  background: rgba(51, 65, 85, 0.8);
+  animation: messageSlide 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .message-bubble.own {
   align-self: flex-end;
   background: linear-gradient(45deg, #3b82f6, #2563eb);
+  box-shadow: 0 6px 20px rgba(37,99,235,0.4);
 }
 
 .typing-indicator {
@@ -211,24 +226,32 @@ html {
   margin-bottom: 10px;
 }
 
+
 .message-input {
   display: flex;
   padding: 15px;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(15, 23, 42, 0.8);
   backdrop-filter: blur(15px);
 }
 
 .message-input input {
   flex: 1;
-  padding: 12px 18px;
+  padding: 14px 20px;
   border-radius: 30px;
   border: none;
   outline: none;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  transition: 0.3s;
+}
+
+.message-input input:focus {
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.4);
 }
 
 .message-input button {
   margin-left: 12px;
-  padding: 12px 22px;
+  padding: 14px 24px;
   border-radius: 30px;
   border: none;
   background: linear-gradient(45deg, #3b82f6, #2563eb);
@@ -238,134 +261,29 @@ html {
 }
 
 .message-input button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37,99,235,0.4);
 }
 
-
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 220px;
-  }
-
-  .message-bubble {
-    max-width: 75%;
-  }
-
-  .auth-box {
-    width: 90%;
-    max-width: 400px;
-  }
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@media (max-width: 768px) {
-
-  body {
-    overflow-y: auto;
-  }
-
-  .chat-layout {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: 160px;
-    display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 10px;
-  }
-
-  .user-item {
-    min-width: 140px;
-    margin-bottom: 0;
-  }
-
-  .chat-window {
-    padding: 15px;
-  }
-
-  .message-bubble {
-    max-width: 85%;
-    font-size: 14px;
-  }
-
-  .message-input {
-    padding: 10px;
-  }
-
-  .message-input input {
-    padding: 10px 14px;
-  }
-
-  .message-input button {
-    padding: 10px 16px;
-  }
-
-  .navbar {
-    padding: 0 15px;
-  }
+@keyframes floatBox {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
-@media (max-width: 480px) {
-
-  .auth-box {
-    padding: 30px 20px;
-  }
-
-  .auth-box h2 {
-    font-size: 18px;
-  }
-
-  .logo {
-    font-size: 15px;
-  }
-
-  .logout-btn {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
-  .message-bubble {
-    max-width: 90%;
-    font-size: 13px;
-  }
-
-  .message-input input {
-    font-size: 14px;
-  }
-
-  .message-input button {
-    font-size: 13px;
-  }
-}
-
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(40px); opacity: 0; }
+@keyframes messageSlide {
+  from { transform: translateY(10px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
-}
-
-@keyframes popIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
 }
 
 @keyframes pulse {
   0% { box-shadow: 0 0 5px #10b981; }
-  50% { box-shadow: 0 0 15px #10b981; }
+  50% { box-shadow: 0 0 18px #10b981; }
   100% { box-shadow: 0 0 5px #10b981; }
 }
 
