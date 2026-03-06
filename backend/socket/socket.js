@@ -4,11 +4,11 @@ import Message from "../models/Message.js";
 export const initSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "https://chat-rosy-one-28.vercel.app"
-      ],
+     origin: [
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://real-time-chat-application-28.vercel.app"
+],
       methods: ["GET", "POST"],
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true

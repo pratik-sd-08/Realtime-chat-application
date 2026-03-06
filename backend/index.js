@@ -1,6 +1,6 @@
 import express from "express";
 import http from "http";
-import cors from "cors"; // ✅ THIS WAS MISSING
+import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -14,16 +14,12 @@ await connectDB();
 
 const app = express();
 const server = http.createServer(app);
-
-/* =============================
-   CORS FIX (CLEAN VERSION)
-============================= */
 app.use(
   cors({
     origin: [
       "http://localhost:5173",
       "http://127.0.0.1:5173",
-      "https://chat-rosy-one-28.vercel.app"
+      "https://real-time-chat-application-28.vercel.app"
     ],
     credentials: true
   })
