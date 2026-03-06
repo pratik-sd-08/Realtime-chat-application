@@ -17,7 +17,6 @@ export const initSocket = (server) => {
   });
 
   const onlineUsers = new Map();
-
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 

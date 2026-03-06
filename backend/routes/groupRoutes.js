@@ -16,7 +16,6 @@ router.post("/", protect, async (req, res) => {
   res.json(group);
 });
 
-
 router.get("/", protect, async (req, res) => {
   const groups = await Group.find({
     members: req.user.id
